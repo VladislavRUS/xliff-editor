@@ -24,6 +24,8 @@ function parseString(data) {
   });
 }
 
+app.use(express.static('dist'));
+
 app.use(bodyParser.json({
   limit: '50mb'
 }));
