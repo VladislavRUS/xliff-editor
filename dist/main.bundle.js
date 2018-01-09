@@ -252,7 +252,7 @@ var UploadComponent = (function () {
     function UploadComponent(localizationService, router) {
         this.localizationService = localizationService;
         this.router = router;
-        this.url = 'http://localhost:3000/upload';
+        this.url = '/upload';
         this.hasBaseDropZoneOver = false;
         this.hasAnotherDropZoneOver = false;
         this.itemsNumber = 0;
@@ -379,7 +379,7 @@ var LocalizationService = (function () {
     LocalizationService.prototype.generateXliff = function (xliff) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Accept': 'application/xml' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
-        this.http.post('http://localhost:3000/xliffs', xliff.data, options).subscribe(function (resp) {
+        this.http.post('/xliffs', xliff.data, options).subscribe(function (resp) {
             var blob = new Blob([resp.text()]);
             __WEBPACK_IMPORTED_MODULE_4_file_saver__["saveAs"](blob, xliff.name);
         });

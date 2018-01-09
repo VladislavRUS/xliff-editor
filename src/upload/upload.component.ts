@@ -12,7 +12,7 @@ import { fail } from 'assert';
 export class UploadComponent implements OnInit, OnDestroy {
   
 
-  url = 'http://localhost:3000/upload';
+  url = '/upload';
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
   itemsNumber = 0;

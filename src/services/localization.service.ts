@@ -23,7 +23,7 @@ export class LocalizationService {
 
         const options = new RequestOptions({ headers: headers });
 
-        this.http.post('http://localhost:3000/xliffs', xliff.data, options).subscribe(resp => {
+        this.http.post('/xliffs', xliff.data, options).subscribe(resp => {
             const blob = new Blob([resp.text()]);
             FileSaver.saveAs(blob, xliff.name);
         });
