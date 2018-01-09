@@ -24,7 +24,7 @@ function parseString(data) {
   });
 }
 
-app.use(express.static('dist'));
+app.use(express.static(__dirname + '/dist'));
 
 app.use(bodyParser.json({
   limit: '50mb'
