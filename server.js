@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const xliffDir = './xliffs';
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 
 function createXliff(jsonXliff) {
   const builder = new xml2js.Builder();
