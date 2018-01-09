@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import  { RouterModule, Routes } from '@angular/router';
 import { FileUploadModule } from 'ng2-file-upload';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { LocalizationService } from 'services/localization.service';
@@ -13,7 +14,8 @@ import { EditorComponent } from 'editor/editor.component';
 const routes: Routes = [
   { path: 'upload', component: UploadComponent },
   { path: 'editor', component: EditorComponent },
-  { path: '', redirectTo: 'upload', pathMatch: 'full' }
+  { path: '', redirectTo: 'upload', pathMatch: 'full' },
+  { path: '**', component: UploadComponent }
 ];
 
 @NgModule({
@@ -30,7 +32,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   providers: [
-    LocalizationService
+    LocalizationService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

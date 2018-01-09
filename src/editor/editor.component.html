@@ -1,102 +1,108 @@
 <div class="ui padded container segment">
-    <div class="ui segment">
-      <h2 class="ui header">
-        <i class="settings icon"></i>
-        <div class="content">
-          XLIFF Editor
-          <div class="sub header">Manage your translations</div>
-        </div>
-      </h2>
-    </div>
-  
-    <div class="ui grid">
-      <div class="four wide column">
-        <div class="ui fluid vertical menu">
-          <a class="item" *ngFor="let file of files; let idx = index" (click)="setActiveFile(idx)" [ngClass]="{'active': file.name === activeFile.name, 'teal': file.name === activeFile.name}">
-            {{file.name}}
-            <div class="ui label" [ngClass]="{'teal': file.name === activeFile.name, 'left': file.name === activeFile.name, 'pointing': file.name === activeFile.name}">
-              {{getFileTranslationUnits(file, false).length}}
-            </div>
-          </a>
-        </div>
-        <div class="ui fluid icon input">
-          <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
-          <i class="search icon"></i>
-        </div>
-        <div class="ui divider"></div>
-  
-        <div class="ui fluid buttons">
-          <button class="ui primary button" (click)="generateXliff()">Generate XLIFF</button>
-        </div>
-        <div class="ui divider"></div>
-  
-        <div class="ui fluid buttons">
-          <button class="ui positive button" (click)="addUnit()">Add translation unit</button>
-        </div>
-        <div class="ui divider"></div>
-  
-        <div class="ui fluid buttons" *ngIf="editUnit.idx !== -1">
-          <button class="ui teal button" (click)="saveEdit()">Save</button>
-          <button class="ui button" (click)="cancelEdit()">Cancel</button>
-        </div>
-  
+  <div class="ui segment">
+    <h2 class="ui header">
+      <i class="settings icon"></i>
+      <div class="content">
+        XLIFF Editor
+        <div class="sub header">Manage your translations</div>
       </div>
-      <div class="twelve wide column">
-        <div class="ui container segment" *ngIf="addingUnit">
-          <form class="ui form">
-            <div class="field">
-              <label>Source</label>
-              <input type="text" name="first-name" placeholder="First Name">
-            </div>
-            <div class="field">
-              <label>Last Name</label>
-              <input type="text" name="last-name" placeholder="Last Name">
-            </div>
-            <div class="field">
-              <div class="ui checkbox">
-                <input type="checkbox" tabindex="0" class="hidden">
-                <label>I agree to the Terms and Conditions</label>
-              </div>
-            </div>
-            <button class="ui positive button" (click)="saveAdd()">Save</button>
-            <button class="ui button" (click)="cancelAdd()">Cancel</button>
-          </form>
-        </div>
-        <table class="ui selectable celled table">
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th>Target</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="top aligned" *ngFor="let translationUnit of getFileTranslationUnits(activeFile, true), let idx = index"
-              (click)="edit(translationUnit, idx)" [ngClass]="{'active': editUnit.idx === idx}">
-              <ng-template [ngIf]="editUnit.idx !== idx">
-                <td>{{translationUnit['source'][0]}}</td>
-                <td>{{translationUnit['target'][0]}}</td>
-              </ng-template>
-              <ng-template [ngIf]="editUnit.idx === idx">
-                <td>
-                  <div class="ui form">
-                    <div class="field">
-                      <textarea type="text" rows="2" [(ngModel)]="editUnit.source"></textarea>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="ui form">
-                    <div class="field">
-                      <textarea type="text" rows="2" [(ngModel)]="editUnit.target"></textarea>
-                    </div>
-                  </div>
-                </td>
-              </ng-template>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  
+    </h2>
   </div>
-  
+
+  <div class="ui grid">
+    <div class="three wide column">
+      <div class="ui fluid vertical menu">
+        <a class="item" *ngFor="let file of files; let idx = index" (click)="setActiveFile(idx)" [ngClass]="{'active': file.name === activeFile.name, 'teal': file.name === activeFile.name}">
+          {{file.name}}
+          <div class="ui label" [ngClass]="{'teal': file.name === activeFile.name, 'left': file.name === activeFile.name, 'pointing': file.name === activeFile.name}">
+            {{getFileTranslationUnits(file, false).length}}
+          </div>
+        </a>
+      </div>
+      <div class="ui fluid icon input">
+        <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
+        <i class="search icon"></i>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui fluid buttons">
+        <button class="ui primary button" (click)="generateXliff()">Generate XLIFF</button>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui fluid buttons">
+        <button class="ui positive button" (click)="addUnit()">Add translation unit</button>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui fluid buttons" *ngIf="editUnit.idx !== -1">
+        <button class="ui teal button" (click)="saveEdit()">Save</button>
+        <button class="ui button" (click)="cancelEdit()">Cancel</button>
+      </div>
+
+    </div>
+    <div class="thirteen wide column">
+      <div class="ui container segment" *ngIf="addingUnit">
+        <form class="ui form">
+          <div class="field">
+            <label>ID</label>
+            <input type="text" name="id" placeholder="Enter id">
+          </div>
+          <div class="field">
+            <label>Source</label>
+            <input type="text" name="source" placeholder="Enter source">
+          </div>
+          <div class="field">
+            <label>Target</label>
+            <input type="text" name="target" placeholder="Enter target">
+          </div>
+          <button class="ui positive button" (click)="saveAdd()">Save</button>
+          <button class="ui button" (click)="cancelAdd()">Cancel</button>
+        </form>
+      </div>
+      <table class="ui selectable compact celled table stackable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Source</th>
+            <th>Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top aligned" *ngFor="let translationUnit of getFileTranslationUnits(activeFile, true), let idx = index" (click)="edit(translationUnit, idx)"
+            [ngClass]="{'active': editUnit.idx === idx}">
+            <ng-template [ngIf]="editUnit.idx !== idx">
+              <td>{{translationUnit['$']['id']}}</td>
+              <td>{{translationUnit['source'][0]}}</td>
+              <td>{{translationUnit['target'][0]}}</td>
+            </ng-template>
+            <ng-template [ngIf]="editUnit.idx === idx">
+              <td>
+                <div class="ui form">
+                  <div class="field">
+                    <textarea type="text" rows="2" [(ngModel)]="editUnit.id"></textarea>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="ui form">
+                  <div class="field">
+                    <textarea type="text" rows="2" [(ngModel)]="editUnit.source"></textarea>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="ui form">
+                  <div class="field">
+                    <textarea type="text" rows="2" [(ngModel)]="editUnit.target"></textarea>
+                  </div>
+                </div>
+              </td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

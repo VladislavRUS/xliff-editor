@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, transition } from '@angular/core';
 import { LocalizationService } from 'services/localization.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { last } from '@angular/router/src/utils/collection';
@@ -16,6 +16,7 @@ export class EditorComponent implements OnInit {
   addingUnit = false;
   editUnit = {
     idx: -1,
+    id: '',
     source: '',
     target: ''
   }
@@ -39,6 +40,7 @@ export class EditorComponent implements OnInit {
 
   clearEditUnit(): void {
     this.editUnit.idx = -1;
+    this.editUnit.id = '';
     this.editUnit.source = '';
     this.editUnit.target = '';
   }
@@ -55,6 +57,7 @@ export class EditorComponent implements OnInit {
     const translationUnits = body['trans-unit'];
 
     const unit = translationUnits[this.editUnit.idx];
+    unit['$']['id'] = this.editUnit.id;
     unit.source[0] = this.editUnit.source;
     unit.target[0] = this.editUnit.target;
   }
@@ -76,6 +79,7 @@ export class EditorComponent implements OnInit {
 
   edit(translationUnit: any, idx: number): void {
     this.editUnit.idx = idx;
+    this.editUnit.id = translationUnit['$']['id']
     this.editUnit.source = translationUnit.source[0];
     this.editUnit.target = translationUnit.target[0];
   }
