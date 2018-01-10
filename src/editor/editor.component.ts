@@ -106,7 +106,12 @@ export class EditorComponent implements OnInit {
     const body = xliffFile['body'][0];
     const translationUnits = body['trans-unit'];
 
-    return translationUnits;
+    return translationUnits.sort((first, second ) => {
+      const firstSource = first.source[0];
+      const secondSource = second.source[0];
+
+      return firstSource.localeCompare(secondSource);
+    });
   };
 
   edit(translationUnit: any, idx: number): void {
