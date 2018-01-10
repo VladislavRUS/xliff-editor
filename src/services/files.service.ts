@@ -6,16 +6,20 @@ import 'rxjs/add/operator/catch';
 import * as FileSaver from 'file-saver';
 
 @Injectable()
-export class LocalizationService {
+export class FilesService {
+    private files = [];
     constructor(private http: Http) { }
-    localizations = [];
 
     getFiles(): any[] {
-        return this.localizations;
+        return this.files;
     }
 
-    addLocalization(localization: any): void {
-        this.localizations.push(localization);
+    addFile(file: any): void {
+        this.files.push(file);
+    }
+
+    clearFiles(): void {
+        this.files = [];
     }
 
     generateXliff(xliff: any): void {

@@ -16,3 +16,7 @@
     bottom: 0;
     z-index: 100;
 }
+
+#sticky {
+    transition: transform .2s ease;
+}

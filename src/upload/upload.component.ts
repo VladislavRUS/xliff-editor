@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
-import { LocalizationService } from 'services/localization.service';
+import { FilesService } from 'services/files.service';
 import { Router } from '@angular/router';
 import { fail } from 'assert';
 
@@ -10,7 +10,7 @@ import { fail } from 'assert';
 })
 
 export class UploadComponent implements OnInit, OnDestroy {
-  
+
 
   url = '/upload';
   hasBaseDropZoneOver: boolean = false;
@@ -20,7 +20,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   preparing = false;
   uploader: FileUploader;
 
-  constructor(private localizationService: LocalizationService, private router: Router) {
+  constructor(private fileService: FilesService, private router: Router) {
     this.uploader = new FileUploader({ url: this.url });
   }
 
@@ -32,12 +32,12 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.counter++;
 
-      this.localizationService.addLocalization({
+      this.fileService.addFile({
         name: item.file.name,
         data: JSON.parse(response)
       });
 
-      if (this.counter == this.itemsNumber) {
+      if (this.counter === this.itemsNumber) {
         this.router.navigateByUrl('/editor');
       }
     };
@@ -48,7 +48,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.itemsNumber = 0;
     this.preparing = false;
   }
-  
+
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
@@ -61,7 +61,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.itemsNumber = this.uploader.queue.length;
     this.counter = 0;
     this.preparing = true;
-    this.localizationService.localizations = [];
+    this.fileService.clearFiles();
 
     this.uploader.uploadAll();
   }

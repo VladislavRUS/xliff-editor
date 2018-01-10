@@ -9,58 +9,73 @@
     </h2>
   </div>
 
-  <div class="ui grid">
+  <div class="ui grid left">
     <div class="three wide column">
-      <div class="ui fluid vertical menu">
+      <div class="ui fluid vertical menu" id="sticky">
+
         <a class="item" *ngFor="let file of files; let idx = index" (click)="setActiveFile(idx)" [ngClass]="{'active': file.name === activeFile.name, 'teal': file.name === activeFile.name}">
           {{file.name}}
           <div class="ui label" [ngClass]="{'teal': file.name === activeFile.name, 'left': file.name === activeFile.name, 'pointing': file.name === activeFile.name}">
             {{getFileTranslationUnits(file, false).length}}
           </div>
         </a>
-      </div>
-      <div class="ui fluid icon input">
-        <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
-        <i class="search icon"></i>
-      </div>
-      <div class="ui divider"></div>
 
-      <div class="ui fluid buttons">
-        <button class="ui primary button" (click)="generateXliff()">Generate XLIFF</button>
-      </div>
-      <div class="ui divider"></div>
+        <div class="item">
+          <div class="ui fluid icon input transparent">
+            <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
+            <i class="search icon"></i>
+          </div>
+        </div>
 
-      <div class="ui fluid buttons">
-        <button class="ui positive button" (click)="addUnit()">Add translation unit</button>
-      </div>
-      <div class="ui divider"></div>
+        <div class="item">
+          <div class="ui fluid buttons">
+            <button class="ui primary button" (click)="generateXliff()">Generate XLIFF</button>
+          </div>
+        </div>
 
-      <div class="ui fluid buttons" *ngIf="editUnit.idx !== -1">
-        <button class="ui teal button" (click)="saveEdit()">Save</button>
-        <button class="ui button" (click)="cancelEdit()">Cancel</button>
+        <div class="item">
+          <div class="ui fluid buttons">
+            <button class="ui positive button" (click)="addUnit()">Add unit</button>
+          </div>
+        </div>
+
+        <ng-template [ngIf]="editUnit.idx !== -1">
+          <div class="item">
+            <div class="ui fluid buttons">
+              <button class="ui teal button" (click)="saveEdit()">Save</button>
+              <button class="ui button" (click)="cancelEdit()">Cancel</button>
+            </div>
+
+          </div>
+          <div class="item">
+            <div class="ui fluid buttons">
+              <button class="ui negative button" (click)="deleteEdit()">Delete</button>
+            </div>
+          </div>
+        </ng-template>
       </div>
 
     </div>
-    <div class="thirteen wide column">
+    <div class="thirteen wide column" id="stickyContext">
       <div class="ui container segment" *ngIf="addingUnit">
         <form class="ui form">
           <div class="field">
             <label>ID</label>
-            <input type="text" name="id" placeholder="Enter id">
+            <input type="text" name="id" placeholder="Enter id" [(ngModel)]="editUnit.id">
           </div>
           <div class="field">
             <label>Source</label>
-            <input type="text" name="source" placeholder="Enter source">
+            <input type="text" name="source" placeholder="Enter source" [(ngModel)]="editUnit.source">
           </div>
           <div class="field">
             <label>Target</label>
-            <input type="text" name="target" placeholder="Enter target">
+            <input type="text" name="target" placeholder="Enter target" [(ngModel)]="editUnit.target">
           </div>
           <button class="ui positive button" (click)="saveAdd()">Save</button>
           <button class="ui button" (click)="cancelAdd()">Cancel</button>
         </form>
       </div>
-      <table class="ui selectable compact celled table stackable">
+      <table class="ui selectable compact collapsing table">
         <thead>
           <tr>
             <th>ID</th>
@@ -72,7 +87,10 @@
           <tr class="top aligned" *ngFor="let translationUnit of getFileTranslationUnits(activeFile, true), let idx = index" (click)="edit(translationUnit, idx)"
             [ngClass]="{'active': editUnit.idx === idx}">
             <ng-template [ngIf]="editUnit.idx !== idx">
-              <td>{{translationUnit['$']['id']}}</td>
+              <td>
+                <div class="ui ribbon label teal" *ngIf="isAdded(translationUnit) && !isEdited(translationUnit)">New</div>
+                <div class="ui ribbon label orange" *ngIf="isEdited(translationUnit)">Edited</div>
+                {{translationUnit['$']['id']}}</td>
               <td>{{translationUnit['source'][0]}}</td>
               <td>{{translationUnit['target'][0]}}</td>
             </ng-template>
@@ -80,21 +98,21 @@
               <td>
                 <div class="ui form">
                   <div class="field">
-                    <textarea type="text" rows="2" [(ngModel)]="editUnit.id"></textarea>
+                    <textarea type="text" rows="3" [(ngModel)]="editUnit.id"></textarea>
                   </div>
                 </div>
               </td>
               <td>
                 <div class="ui form">
                   <div class="field">
-                    <textarea type="text" rows="2" [(ngModel)]="editUnit.source"></textarea>
+                    <textarea type="text" rows="3" [(ngModel)]="editUnit.source"></textarea>
                   </div>
                 </div>
               </td>
               <td>
                 <div class="ui form">
                   <div class="field">
-                    <textarea type="text" rows="2" [(ngModel)]="editUnit.target"></textarea>
+                    <textarea type="text" rows="3" [(ngModel)]="editUnit.target"></textarea>
                   </div>
                 </div>
               </td>

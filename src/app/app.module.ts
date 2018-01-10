@@ -7,7 +7,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { LocalizationService } from 'services/localization.service';
+import { FilesService } from 'services/files.service';
 import { UploadComponent } from 'upload/upload.component';
 import { EditorComponent } from 'editor/editor.component';
 
@@ -32,7 +32,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   providers: [
-    LocalizationService,
+    FilesService,
     { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
