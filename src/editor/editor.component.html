@@ -1,3 +1,10 @@
+<div class="_overlay" *ngIf="generating">
+  <div class="ui active inverted dimmer">
+    <div class="ui indeterminate text loader">Generating</div>
+  </div>
+  <p></p>
+</div>
+
 <div class="ui padded container segment">
   <div class="ui segment">
     <h2 class="ui header">
@@ -16,13 +23,13 @@
         <a class="item" *ngFor="let file of files; let idx = index" (click)="setActiveFile(idx)" [ngClass]="{'active': file.name === activeFile.name, 'teal': file.name === activeFile.name}">
           {{file.name}}
           <div class="ui label" [ngClass]="{'teal': file.name === activeFile.name, 'left': file.name === activeFile.name, 'pointing': file.name === activeFile.name}">
-            {{getFileTranslationUnits(file, false).length}}
+            {{getFileTranslationUnits(file, false, false).length}}
           </div>
         </a>
 
         <div class="item">
           <div class="ui fluid icon input transparent">
-            <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
+            <input type="text" placeholder="Search..." [(ngModel)]="searchStr" (ngModelChange)="updatePages(getFileTranslationUnits(activeFile, false, true))">
             <i class="search icon"></i>
           </div>
         </div>
@@ -39,11 +46,11 @@
           </div>
         </div>
 
-        <ng-template [ngIf]="editUnit.idx !== -1">
+        <ng-template [ngIf]="editingUnit">
           <div class="item">
             <div class="ui fluid buttons">
               <button class="ui teal button" (click)="saveEdit()">Save</button>
-              <button class="ui button" (click)="cancelEdit()">Cancel</button>
+              <button class="ui button" (click)="cancelEdit(); clearEditUnit()">Cancel</button>
             </div>
 
           </div>
@@ -57,6 +64,17 @@
 
     </div>
     <div class="thirteen wide column" id="stickyContext">
+      <div class="ui error message animated" *ngIf="showErrorMessage">
+        <i class="close icon" (click)="showErrorMessage = false"></i>
+        <div class="header">
+          Translation unit is incorrect
+        </div>
+        <ul class="list">
+          <li>Please fill all the fields</li>
+          <li>Translation unit with the same id already exists</li>
+        </ul>
+      </div>
+
       <div class="ui container segment" *ngIf="addingUnit">
         <form class="ui form">
           <div class="field">
@@ -75,8 +93,23 @@
           <button class="ui button" (click)="cancelAdd()">Cancel</button>
         </form>
       </div>
-      <table class="ui selectable compact collapsing table">
+      <table class="ui fixed single line selectable compact table">
         <thead>
+          <tr>
+            <th colspan="3">
+              <div class="ui right floated pagination menu">
+                <a class="icon item" (click)="decPage()">
+                  <i class="left chevron icon"></i>
+                </a>
+                <a class="item" *ngFor="let page of pages" (click)="setActivePage(page)" [ngClass]="{'active': page === currentPage}">
+                  {{page + 1}}
+                </a>
+                <a class="icon item" (click)="incPage()">
+                  <i class="right chevron icon"></i>
+                </a>
+              </div>
+            </th>
+          </tr>
           <tr>
             <th>ID</th>
             <th>Source</th>
@@ -84,8 +117,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="top aligned" *ngFor="let translationUnit of getFileTranslationUnits(activeFile, true), let idx = index" (click)="edit(translationUnit, idx)"
-            [ngClass]="{'active': editUnit.idx === idx}">
+          <tr class="top aligned pointer" *ngFor="let translationUnit of getFileTranslationUnits(activeFile, true, true), let idx = index"
+            (click)="edit(translationUnit, idx)" [ngClass]="{'active': editUnit.idx === idx}">
             <ng-template [ngIf]="editUnit.idx !== idx">
               <td>
                 <div class="ui ribbon label teal" *ngIf="isAdded(translationUnit) && !isEdited(translationUnit)">New</div>
@@ -94,7 +127,7 @@
               <td>{{translationUnit['source'][0]}}</td>
               <td>{{translationUnit['target'][0]}}</td>
             </ng-template>
-            <ng-template [ngIf]="editUnit.idx === idx">
+            <ng-template [ngIf]="editUnit.idx === idx && editingUnit">
               <td>
                 <div class="ui form">
                   <div class="field">
@@ -122,5 +155,4 @@
       </table>
     </div>
   </div>
-
 </div>

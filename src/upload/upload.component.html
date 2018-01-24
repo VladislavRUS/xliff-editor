@@ -1,5 +1,5 @@
 <div class="_overlay" *ngIf="preparing">
-  <div class="ui active dimmer">
+  <div class="ui active inverted dimmer">
     <div class="ui indeterminate text loader">Preparing Files</div>
   </div>
   <p></p>
@@ -8,7 +8,7 @@
 <div class="ui padded container segment">
   <div ng2FileDrop [ngClass]="{'_over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="ui dropzone">
     <h2 class="ui header">
-      Drop files here
+      Drop file here
     </h2>
   </div>
 

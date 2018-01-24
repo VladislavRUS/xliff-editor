@@ -2,9 +2,10 @@
     border: dotted 3px lightgray !important;
     background-color: #F5F5F5;
     padding: 20px !important;
+    transition: border .2s ease;
 
     &._over {
-        border: dotted 3px red !important;
+        border: dotted 3px #009C95 !important;
     }
 }
 
@@ -19,4 +20,26 @@
 
 #sticky {
     transition: transform .2s ease;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.animated {
+    animation-name: smooth;
+    animation-duration: .2s;
+    animation-timing-function: ease;
+}
+
+@keyframes smooth {
+    0% {
+        opacity: 0;
+        transform: scaleY(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
 }
