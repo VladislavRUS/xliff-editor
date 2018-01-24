@@ -105,6 +105,7 @@ export class EditorComponent implements OnInit {
 
   setActiveFile(idx): void {
     this.activeFile = this.files[idx];
+    this.searchStr = '';
     this.updatePages(this.getFileTranslationUnits(this.activeFile, false, false));
   }
 
