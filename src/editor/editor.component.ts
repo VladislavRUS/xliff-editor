@@ -154,9 +154,10 @@ export class EditorComponent implements OnInit {
 
       translationUnits = translationUnits.filter(unit => {
         const source = unit.source[0].toLowerCase();
+        const target = unit.target[0].toLowerCase();
         const id = unit['$']['id'].toLowerCase();
 
-        return source.indexOf(searchStr) > -1 || id.indexOf(searchStr) > -1;
+        return id.indexOf(searchStr) > -1 || source.indexOf(searchStr) > -1 || target.indexOf(searchStr) > -1;
       });
     }
 
