@@ -92,7 +92,7 @@ export class EditorComponent implements OnInit {
   }
 
   incPage(): void {
-    if (this.currentPage < this.pages.length) {
+    if (this.currentPage < this.pages.length - 1) {
       this.currentPage++;
     }
   }
