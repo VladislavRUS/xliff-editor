@@ -3,4 +3,4 @@
 Web app for managing xliff translations
 
 Available on:
-http://xliff-editor.herokuapp.com 
+http://vlku0505.ru/xliff-editor
